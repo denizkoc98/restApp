@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
+@CrossOrigin("http://localhost:4200")
 //@ComponentScan(basePackages = {"com.example.controller","com.example.service", "com.example.domain","com.example.demo","com.example.repository" })
 public class RestaurantApplication {
 	

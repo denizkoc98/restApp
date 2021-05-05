@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 
@@ -22,10 +24,10 @@ private int totalExpenses;
 private int visitNumber;
 
 @OneToOne(mappedBy = "discount")
+@JsonBackReference
 private Basket basket;
 
-@ManyToOne
-private Customer customer;
+
 
 public Discount(int discountId, String discount_rate, int totalExpenses, int visitNumber) {
 	super();

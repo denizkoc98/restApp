@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.example.CustomerDetails;
 import com.example.domain.Customer;
@@ -14,6 +15,7 @@ import com.example.repository.CustomerRepository;
 import com.sun.security.auth.UserPrincipal;
 
 @Service
+@CrossOrigin("http://localhost:4200")
 public class CustomerDetailsService implements UserDetailsService{
 
 	@Autowired

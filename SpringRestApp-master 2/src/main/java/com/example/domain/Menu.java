@@ -32,8 +32,6 @@ public class Menu {
 	@JsonBackReference
 	 private Restaurant restaurant;
 	
-	//@ElementCollection
-		//@CollectionTable
 	@OneToMany(mappedBy="menu")
 	@JsonManagedReference
 	private List<MenuItem> menuitem = new ArrayList<> ();

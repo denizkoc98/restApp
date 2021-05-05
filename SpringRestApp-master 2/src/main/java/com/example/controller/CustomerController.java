@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.CustomerDetails;
 import com.example.domain.Customer;
+import com.example.service.CustomerDetailsService;
 import com.example.service.CustomerService;
 
 
@@ -26,6 +29,8 @@ public class CustomerController {
 
 	@Autowired
 	CustomerService customerService;
+	@Autowired
+	CustomerDetailsService detailsService;
 	
 	
 	 @PostMapping("/add")
@@ -45,7 +50,7 @@ public class CustomerController {
 	    }
 
 	 @GetMapping("/findCustomer/{rest_id}")
-	    public Optional<Customer> findcustomer(@PathVariable  ("rest_id") int rest_id) {
+	    public Customer findcustomer(@PathVariable  ("rest_id") int rest_id) {
 		
 		 return customerService.findcustomer(rest_id);
 	       
@@ -55,5 +60,16 @@ public class CustomerController {
 	    public List<Customer> cancelRegistration(@PathVariable("rest_id") int rest_id) {
 	       return customerService.cancelRegistration(rest_id);
 	    }
-
+	 @GetMapping("/findcustomerbyname/{username}")
+	    public Optional <Customer> findcustomer(@PathVariable  ("username") String username) {
+		
+	
+				 
+		return customerService.findCustByUsername(username);
+		
+	       
+	    }
+	
+	 
+	 
 }

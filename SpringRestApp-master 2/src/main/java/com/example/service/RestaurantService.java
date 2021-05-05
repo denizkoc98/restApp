@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.example.domain.Menu;
 import com.example.domain.MenuItem;
@@ -16,6 +17,7 @@ import com.example.repository.MenuRepository;
 import com.example.repository.RestaurantRepository;
 
 @Service
+@CrossOrigin("http://localhost:4200")
 public class RestaurantService {
 	@Autowired
 	public RestaurantRepository restaurantRepository;
@@ -59,12 +61,7 @@ public class RestaurantService {
 
 	public List<Restaurant> populatedata() {
 
-	/*for (int i=1; i<=20; i++) {
-		MenuItem mit= new MenuItem(0, "name"+i, 100, "descp"+i,m);
-		itemRepository.save(mit);
-		}
-		List<MenuItem> menuItems = new ArrayList<>();
-		itemRepository.findAll().forEach(menuItems :: add);*/
+	
 		
 		
 		for (int i=1; i<=100; i++) {
@@ -91,18 +88,14 @@ public class RestaurantService {
 		
 		}
 		
-		/*Menu m = new Menu(0, "mealtestrest");
-		for (int i=1; i<=20; i++) {
-			
-			MenuItem mit= new MenuItem(0, "name"+i, 100, "descp"+i,m);
-			itemRepository.save(mit);
-			}*/
+		
 		return null;
 		
 		
 		
 		
 	}
+	@CrossOrigin("http://localhost:4200")
 	public List<MenuItem> getMenu(int rest_id) {
 		Optional<Restaurant> r = restaurantRepository.findById(rest_id);
 		List<MenuItem> ms =r.get().getRest_menu().getMenuitem();

@@ -26,6 +26,7 @@ public class MenuItem {
 	private Menu menu;
 	
 	@ManyToMany(mappedBy="hasItem")
+	@JsonBackReference
     Set<Basket> belongs;
 
 	public MenuItem(int itemId, String itemName, float price, String description, Menu menu) {

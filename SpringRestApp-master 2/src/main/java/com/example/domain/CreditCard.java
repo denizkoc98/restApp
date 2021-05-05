@@ -9,6 +9,8 @@ import javax.persistence.Id;
 
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 
 
@@ -25,6 +27,7 @@ public class CreditCard {
 	private String expireDate;
 	
 	@ManyToOne
+	@JsonBackReference
 	private Customer customer;
 
 	public CreditCard(int cardId, int cardNumber, String cvv, String cardName, String expireDate, Customer customer) {

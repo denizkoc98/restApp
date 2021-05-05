@@ -1,6 +1,7 @@
 package com.example;
 
 import java.util.Arrays;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -58,6 +59,11 @@ public class CustomerDetails implements UserDetails{
 		return customer.getUsername();
 	}
 
+	public int getId() {
+		// TODO Auto-generated method stub
+		return customer.getId();
+	}
+	
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub

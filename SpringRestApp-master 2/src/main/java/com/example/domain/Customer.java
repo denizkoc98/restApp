@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 
@@ -30,14 +32,23 @@ public class Customer {
 	private String email;
 	
 	@OneToMany(mappedBy="customer")
+	@JsonManagedReference
 	private List<CreditCard> creditcard = new ArrayList<> ();
 	
 	@OneToMany(mappedBy="customer")
-	private List<Discount> discount = new ArrayList<> ();
+	@JsonManagedReference
+	private List<Basket> basket ;
 	
 	
 	
+
 	
+	public List<Basket> getBasket() {
+		return basket;
+	}
+	public void setBasket(List<Basket> basket) {
+		this.basket = basket;
+	}
 	public Customer(int id, String firstName, String lastName, String password, String username, String phone,
 			String email) {
 		super();
