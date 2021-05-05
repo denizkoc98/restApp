@@ -69,24 +69,27 @@ public class BasketService {
     
     }
     
-  /*  public List<MenuItem> myCart(String username){
+    /*
+    public List<MenuItem> myCart(int custId){
     	
+    	Customer customer = customerRepository.findById(custId);
+    	customer.getBasket().
     	List<MenuItem> mi = new ArrayList<>();
-    	mi.addAll(basketRepository.findByUsername(username).getHasItem()); 
+    	mi.addAll(basketRepository.findById().getHasItem()); 
     	return mi;
     	
 
     }
     
    
+	
+	
+	
+	
+	
+	
+	
 	/*
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
