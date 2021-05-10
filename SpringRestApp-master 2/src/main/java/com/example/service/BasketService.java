@@ -41,44 +41,144 @@ public class BasketService {
 	public DiscountRepository discountRepository;
 	
 	
-   
+   public Discount findDiscountInList(List <Discount> discounts, int restaurantId){
+	   
+	   for (Discount discount : discounts) {
+           if (discount.getRestaurantId()== restaurantId) {
+              
+              return discount;
+              //bu ratei uyguliycaz
+           }
+           
+           
+           	
+       }
+	return null;
+       
+   }
 	
 	
-    public void addToCart(int menuItemId,int basketId, int customerID) {
+    public void addToCart(int menuItemId, int customerID) {
     
-    	Basket basket = basketRepository.findById(basketId);
-    	if (basket==null) {
-    	basket = new Basket();
-    	}
     	//basket = basketRepository.findById(basketId);
     	
-    	Customer customer = customerRepository.findById(customerID);
-    	basket.setCustomer(customer);
+    	Customer customer = customerRepository.findById(customerID);//basketine ekliycegimiz custı bul
+    	Basket basket = customer.getBasket();//custin basketini al 
+    	if (basket==null) {//basketi yoksa yenisini olustur
+        	basket = new Basket();
+        	basket.setCustomer(customer);
+        	}
+    	
+    	//menuitem ekleme
     	MenuItem menuItem = itemRepository.findById(menuItemId);
     	List<MenuItem> menuItems = new ArrayList<>();
     	menuItems= basket.getHasItem();
     	menuItems.add(menuItem);
+    	
+    	int restaurantId=menuItem.getMenu().getRestaurant().getRest_id(); //get restId for discount
+    	
     	basket.setBill(menuItem.getPrice());
     	basket.setOrderDate("trial");
-    	basket.setTotalExpenses(15);
-    	Discount d =new Discount(0,"",0,1);
-    	discountRepository.save(d);
-    	basket.setDiscount(d);
+    	
+    	//getting discounts
+    	List<Discount> discounts = new ArrayList<>();
+    	discounts = basket.getDiscount();
+    	
+
+    	Discount discount= findDiscountInList(discounts, restaurantId);
+    	
+    	if (discount==null) {//eger daha onceden bir discount yok ise
+    		
+    		
+
+    		Discount d =new Discount(0,0,0,0, restaurantId);
+    		discountRepository.save(d);
+    		d.setBasket(basket);
+    		
+    		discounts.add(d);
+    		basket.setDiscount(discounts);
+    		float totalEx= basket.getTotalOrderPrice();
+    		basket.setTotalExpenses(totalEx);
+
+    		
+    		
+    		
+    	}
+    	else {
+    	
+    		
+    		float rate = discount.getDiscount_rate();
+    		//rate uygula baskettaki pricelara
+    		float totalEx= basket.getTotalOrderPrice();//ratesiz hali
+    		float discounted = totalEx * (rate/100); //indirim hesapla
+    		totalEx= totalEx - discounted;
+    		
+    		basket.setTotalExpenses(totalEx);
+
+        	
+        	
+    		
+    	}
+    	
+    	
+        
+    	
     	basketRepository.save(basket);
+    	
+    	
+    	
+    	
+    	
     
     
     }
     
-    /*
-    public List<MenuItem> myCart(int custId){
+    
+    public Basket myCart(int custId){
     	
     	Customer customer = customerRepository.findById(custId);
-    	customer.getBasket().
-    	List<MenuItem> mi = new ArrayList<>();
-    	mi.addAll(basketRepository.findById().getHasItem()); 
-    	return mi;
+    	Basket basket =customer.getBasket();    	
+    
+    	
+    	return basket;
     	
 
+    }
+    
+    public void doPurchase (int customerId) {
+    	Customer customer = customerRepository.findById(customerId);
+    	Basket basket = customer.getBasket();
+    	List <MenuItem> menuItems = basket.getHasItem();
+    	List <Discount> discounts = basket.getDiscount();
+    	MenuItem menuItem =menuItems.get(0);
+    	int restId=menuItem.getMenu().getRestaurant().getRest_id();
+    	Discount discount= findDiscountInList(discounts, restId);
+    	
+    	//get-set visitnumber of discount
+    	int visitNumber= (discount.getVisitNumber())+1;
+    	discount.setVisitNumber(visitNumber);
+    	
+    	//get-set totalExpenses of discount
+    	float totalEx = basket.getTotalExpenses();
+    	float total = totalEx + (discount.getTotalExpenses());
+    	discount.setTotalExpenses(total);
+    	
+    	//get-set rate of discounts
+    	int rate = discount.getDiscount_rate();
+    	discount.setDiscount_rate(10);
+    	
+    	customer.getSales();
+    	basket.setBill(0);
+    	basket.setOrderDate("0");
+    	basket.setHasItem(null);
+    	basket.setTotalExpenses(0);
+    	discountRepository.save(discount);
+    	basketRepository.save(basket);
+    	
+    	
+    	
+    	
+    	
     }
     
    
@@ -89,7 +189,7 @@ public class BasketService {
 	
 	
 	
-	/*
+	
 	
 	
 	

@@ -27,7 +27,7 @@ public class CreditCard {
 	private String expireDate;
 	
 	@ManyToOne
-	@JsonBackReference
+	@JsonBackReference(value="cc-cust")
 	private Customer customer;
 
 	public CreditCard(int cardId, int cardNumber, String cvv, String cardName, String expireDate, Customer customer) {

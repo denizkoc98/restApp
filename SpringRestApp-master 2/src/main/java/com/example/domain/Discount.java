@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -19,39 +20,53 @@ public class Discount {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 
 private int discountId;
-private String discount_rate;
-private int totalExpenses;
+private int discount_rate;
+private float totalExpenses;
 private int visitNumber;
+private int restaurantId;
 
-@OneToOne(mappedBy = "discount")
-@JsonBackReference
+@ManyToOne
+@JsonBackReference(value="discount-basket")
 private Basket basket;
 
 
 
-public Discount(int discountId, String discount_rate, int totalExpenses, int visitNumber) {
+public Discount(int discountId, int discount_rate, float totalExpenses, int visitNumber, int restaurantId) {
 	super();
 	this.discountId = discountId;
 	this.discount_rate = discount_rate;
 	this.totalExpenses = totalExpenses;
 	this.visitNumber = visitNumber;
+	this.restaurantId = restaurantId;
 }
+
+
+public int getRestaurantId() {
+	return restaurantId;
+}
+
+
+public void setRestaurantId(int restaurantId) {
+	this.restaurantId = restaurantId;
+}
+
+
 public int getDiscountId() {
 	return discountId;
 }
 public void setDiscountId(int discountId) {
 	this.discountId = discountId;
 }
-public String getDiscount_rate() {
+public int getDiscount_rate() {
 	return discount_rate;
 }
-public void setDiscount_rate(String discount_rate) {
+public void setDiscount_rate(int discount_rate) {
 	this.discount_rate = discount_rate;
 }
-public int getTotalExpenses() {
+public float getTotalExpenses() {
 	return totalExpenses;
 }
-public void setTotalExpenses(int totalExpenses) {
+public void setTotalExpenses(float totalExpenses) {
 	this.totalExpenses = totalExpenses;
 }
 public int getVisitNumber() {

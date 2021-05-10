@@ -32,7 +32,7 @@ public class Restaurant {
 	private String rest_workinghours;
 	
 	@OneToOne
-	@JsonManagedReference
+	@JsonManagedReference(value="menu-rest")
 	private Menu rest_menu;
 	
 	

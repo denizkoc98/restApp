@@ -29,11 +29,11 @@ public class Menu {
 	private String mealName;
 	
 	@OneToOne(mappedBy = "rest_menu")
-	@JsonBackReference
+	@JsonBackReference(value="menu-rest")
 	 private Restaurant restaurant;
 	
 	@OneToMany(mappedBy="menu")
-	@JsonManagedReference
+	@JsonManagedReference(value="menu-item")
 	private List<MenuItem> menuitem = new ArrayList<> ();
 
 	public int getMenuId() {

@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -32,21 +33,30 @@ public class Customer {
 	private String email;
 	
 	@OneToMany(mappedBy="customer")
-	@JsonManagedReference
+	@JsonManagedReference(value="cc-cust")
 	private List<CreditCard> creditcard = new ArrayList<> ();
 	
+	@OneToOne(mappedBy="customer")
+	@JsonManagedReference(value="basket-cust") 
+	private Basket basket ;
+	
 	@OneToMany(mappedBy="customer")
-	@JsonManagedReference
-	private List<Basket> basket ;
-	
-	
+	@JsonManagedReference(value="sales-cust")
+	private List<Sales> sales = new ArrayList<> ();
 	
 
 	
-	public List<Basket> getBasket() {
+	
+	public List<Sales> getSales() {
+		return sales;
+	}
+	public void setSales(List<Sales> sales) {
+		this.sales = sales;
+	}
+	public Basket getBasket() {
 		return basket;
 	}
-	public void setBasket(List<Basket> basket) {
+	public void setBasket(Basket basket) {
 		this.basket = basket;
 	}
 	public Customer(int id, String firstName, String lastName, String password, String username, String phone,

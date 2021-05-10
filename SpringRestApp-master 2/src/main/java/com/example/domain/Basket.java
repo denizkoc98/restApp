@@ -14,12 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.data.annotation.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -33,26 +35,29 @@ public class Basket {
 	// @JsonFormat(pattern = "dd/MM/yyyy")
 	 private String orderDate;
 	 private float bill;
-	 private int totalExpenses;
+	 private float totalExpenses;
 	 
 	 @ManyToMany
 	 @JoinTable(name = "hasItem")
-	 @JsonManagedReference
+	 //@JsonManagedReference(value="basket-item")
+	 @JsonIgnoreProperties("belongs")
 	 List<MenuItem> hasItem = new ArrayList<> ();
 	 
-	 @ManyToOne
-	 @JsonBackReference
+	 @OneToOne
+	 @JsonBackReference(value="basket-cust") 
 	 private Customer customer;
 	
 	
-	@OneToOne
-	@JsonManagedReference
-	private Discount discount;
+	@OneToMany(mappedBy= "basket")
+	@JsonManagedReference(value="discount-basket")
+	private List <Discount> discount=new ArrayList<> ();
 	
 	
-	  public Basket(int orderId, String orderDate, float bill, int totalExpenses, List<MenuItem> hasItem,
-			Customer customer, Discount discount) {
-		
+	
+
+	public Basket(int orderId, String orderDate, float bill, float totalExpenses, List<MenuItem> hasItem,
+			Customer customer, List<Discount> discount) {
+		super();
 		this.orderId = orderId;
 		this.orderDate = orderDate;
 		this.bill = bill;
@@ -63,8 +68,8 @@ public class Basket {
 	}
 
 	@Transient
-	    public Double getTotalOrderPrice() {
-	        double sum = 0D;
+	    public Float getTotalOrderPrice() {
+	        float sum = 0;
 	        List<MenuItem> menuItems = getHasItem();
 	        for (MenuItem op : menuItems) {
 	            sum += op.getPrice();
@@ -99,16 +104,19 @@ public class Basket {
 		return bill;
 	}
 
-	public int getTotalExpenses() {
+	public float getTotalExpenses() {
 		return totalExpenses;
 	}
-	public void setTotalExpenses(int totalExpenses) {
+	public void setTotalExpenses(float totalExpenses) {
 		this.totalExpenses = totalExpenses;
 	}
-	public Discount getDiscount() {
+	
+
+	public List<Discount> getDiscount() {
 		return discount;
 	}
-	public void setDiscount(Discount discount) {
+
+	public void setDiscount(List<Discount> discount) {
 		this.discount = discount;
 	}
 

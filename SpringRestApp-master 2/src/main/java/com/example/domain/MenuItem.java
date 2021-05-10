@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 
@@ -22,12 +25,13 @@ public class MenuItem {
 	private String description;
 	
 	@ManyToOne
-	@JsonBackReference
+	@JsonBackReference(value="menu-item")
 	private Menu menu;
 	
 	@ManyToMany(mappedBy="hasItem")
-	@JsonBackReference
-    Set<Basket> belongs;
+	//@JsonBackReference(value="basket-item")
+	@JsonIgnoreProperties("hasItem")
+    List<Basket> belongs=  new ArrayList<> ();
 
 	public MenuItem(int itemId, String itemName, float price, String description, Menu menu) {
 		super();
@@ -37,6 +41,32 @@ public class MenuItem {
 		this.description = description;
 		this.menu = menu;
 	}
+	
+	
+
+	public String getDescription() {
+		return description;
+	}
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
+	public List<Basket> getBelongs() {
+		return belongs;
+	}
+
+
+
+	public void setBelongs(List<Basket> belongs) {
+		this.belongs = belongs;
+	}
+
+
 
 	public int getItemId() {
 		return itemId;
