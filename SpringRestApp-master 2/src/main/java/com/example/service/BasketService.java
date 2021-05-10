@@ -167,7 +167,7 @@ public class BasketService {
     	int rate = discount.getDiscount_rate();
     	discount.setDiscount_rate(10);
     	
-    	customer.getSales();
+    	
     	basket.setBill(0);
     	basket.setOrderDate("0");
     	basket.setHasItem(null);
