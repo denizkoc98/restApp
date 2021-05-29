@@ -64,29 +64,25 @@ public class RestaurantService {
 	
 		
 		
-		for (int i=1; i<=100; i++) {
+		
 		
 	
-		Menu m =new Menu(0, "meal for"+"testrest" + i);
+		Menu m =new Menu(0, "Menu1"+"Menu1");
 		//MenuItem mit= new MenuItem(0, "name"+i, 100, "descp"+i,m);
 		
 	
-		Restaurant	r= new Restaurant(0, "testrest" + i, "adress"+i, "phone" +i, "mail"+i, "workhours"+i, m);
+		Restaurant	r= new Restaurant(0, "Eylul Cafe", "Atasehir Sokak:17 No:3", "2167771818", "Happy Hour at 19.00", "9.00-21.00", m);
 		menuRepository.save(m);
 		//itemRepository.save(mit);
 		restaurantRepository.save(r);
-			for (int a=1; a<=20; a++) {
 			
-			MenuItem mit= new MenuItem(0, "name"+i, 100, "descp"+i,m);
+			
+			MenuItem mit= new MenuItem(0, "Pasta", 30, "Delicious pasta with bolognese sauce",
+					"./../../../assets/pasta.png" ,m);
 			itemRepository.save(mit);
 			
 		
-			
-			}
-			
 		
-		
-		}
 		
 		
 		return null;
